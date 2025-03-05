@@ -1,32 +1,33 @@
 {
   "Routes": [
     {
+      "UseServiceDiscovery": true,
+      "ServiceName": "IdentityService",
+
       "DownstreamPathTemplate": "/api/auth/{everything}",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5001
-        }
-      ],
+      
       "UpstreamPathTemplate": "/identity/{everything}",
       "UpstreamHttpMethod": [ "POST" ]
     },
     {
+      "UseServiceDiscovery": true,
+      "ServiceName": "HospitalService",
+
       "DownstreamPathTemplate": "/api/Doctor/{everything}",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5050
-        }
-      ],
+      
       "UpstreamPathTemplate": "/Doctor/{everything}",
       "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
     }
   ],
   "GlobalConfiguration": {
     "BaseUrl": "https://localhost:5000",
-    "CorsPolicy": "AllowAll"
+    "CorsPolicy": "AllowAll",
+    "ServiceDiscoveryProvider": {
+      "Host": "localhost",
+      "Port": 8500,
+      "Type": "Consul"
+    }
   }
 }
